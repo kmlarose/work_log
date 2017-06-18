@@ -1,10 +1,14 @@
-# PROJECT INSTRUCTIONS
-# ====================
-# Make sure your script runs without errors.
-# Catch exceptions and report errors to the user in a meaningful way.
-
+print('    Work Log')
 # As a user of the script, I should be prompted with a menu to choose
 # whether to add a new entry or lookup previous entries.
+# Menu has a “quit” option to exit the program.
+MAIN_MENU = ('[A] Add New Entry\n'
+             '[L] Lookup Previous Entries\n'
+             '[Q] Quit')
+menu_choice = ''
+while menu_choice.upper() != 'Q':
+    print(MAIN_MENU)
+    menu_choice = input('> ')
 
 # As a user of the script, if I choose to enter a new work log,
 # I should be able to provide a task name, a number of minutes spent working on it,
@@ -38,7 +42,6 @@
 
 # EXTRA CREDIT
 # ============
-# Menu has a “quit” option to exit the program.
 # Entries can be deleted and edited, letting user change the date,
 # task name, time spent, and/or notes.
 # Entries can be searched for and found based on a date range.
@@ -55,3 +58,6 @@
 # Passing grades are final. If you try for the "Exceeds Expectations" grade,
 # but miss an item and receive a “Meets Expectations” grade, you won’t get a second chance.
 # Exceptions can be made for items that have been misgraded in review.
+
+# Make sure your script runs without errors.
+# Catch exceptions and report errors to the user in a meaningful way.
