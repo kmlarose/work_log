@@ -1,43 +1,51 @@
 import os
 
+from entry import Entry
 
-def clear():
+
+def clear_console():
     """clears the console screen"""
     os.system('cls' if os.name == 'nt' else 'clear')
 
-# As a user of the script, I should be prompted with a menu to choose
-# whether to add a new entry or lookup previous entries.
-# Menu has a “quit” option to exit the program.
+
+def add_new_entry():
+    """Collects user input for the New Log Entry"""
+    clear_console()
+    print('Add New Entry')
+    entry_name = input('Entry Name: ')
+    entry_time = input('How many minutes did it take?: ')
+    # TODO-kml: transform the entry_time into a timedelta object
+    entry_note = input('Any additional notes?: ')
+    return Entry(entry_name, entry_time, entry_note)
+
+
 MAIN_MENU = ('[A] Add New Entry\n'
              '[L] Lookup Previous Entries\n'
              '[Q] Quit')
 
+
 menu_choice = ''
 while menu_choice.upper() != 'Q':
-    clear()
+    clear_console()
     print('    Work Log')
     print(MAIN_MENU)
 
     menu_choice = input('> ')
     if menu_choice.upper() == 'A':
-        print('Add New Entry')
-        print('Under Construction')
+        new_entry = add_new_entry()
+        print('Added new entry: {}'.format(new_entry))
         input('Press enter to continue...')
     if menu_choice.upper() == 'L':
         print('Lookup Previous Entries')
         print('Under Construction')
         input('Press enter to continue...')
 
-# As a user of the script, if I choose to enter a new work log,
-# I should be able to provide a task name, a number of minutes spent working on it,
-# and any additional notes I want to record.
-
 # As a user of the script, if I choose to find a previous entry,
 # I should be presented with four options:
-# find by date
-# find by time spent
-# find by exact search
-# find by pattern
+#       find by date
+#       find by time spent
+#       find by exact search
+#       find by pattern
 # Note:
 # When finding by date, I should be presented with a list of dates with entries
 # and be able to choose one to see entries from.
@@ -50,13 +58,6 @@ while menu_choice.upper() != 'Q':
 
 # When displaying the entries, the entries should be displayed in a readable format with
 # the date, task name, time spent, and notes information.
-
-# Make sure your coding style complies with PEP 8.
-
-# Before you submit your project for review,
-# make sure you can check off all of the items on the Student Project Submission Checklist.
-# The checklist is designed to help you make sure you’ve met the grading requirements
-# and that your project is complete and ready to be submitted!
 
 # EXTRA CREDIT
 # ============
