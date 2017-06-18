@@ -13,42 +13,73 @@ def add_new_entry():
     clear_console()
     print('Add New Entry')
     entry_name = input('Entry Name: ')
-    entry_time = input('How many minutes did it take?: ')
-    # TODO-kml: transform the entry_time into a timedelta object
+    while True:
+        entry_time = input('How many minutes did it take?: ')
+        try:
+            entry_time = float(entry_time)
+        except ValueError:
+            print('Please enter a number: ')
+        else:
+            if entry_time <= 0.0:
+                print('Please enter a valid # of minutes...')
+            else:
+                break
     entry_note = input('Any additional notes?: ')
-    return Entry(entry_name, entry_time, entry_note)
+    entry =  Entry(entry_name, entry_time, entry_note)
+    entry.save()
+    return entry
 
 
+# TODO-kml: wrap the console UI in a function, check for __main__ before calling
 MAIN_MENU = ('[A] Add New Entry\n'
              '[L] Lookup Previous Entries\n'
              '[Q] Quit')
 
+LOOKUP_MENU = ('[D] Find by Date\n'
+               '[T] Find by Time Spent\n'
+               '[E] Find by Exact Search\n'
+               '[P] Find by Pattern\n'
+               '[B] Back to Main Menu')
 
+# Main Menu Loop
 menu_choice = ''
 while menu_choice.upper() != 'Q':
+    # display main menu
     clear_console()
     print('    Work Log')
     print(MAIN_MENU)
 
+    # handle the user's choice
     menu_choice = input('> ')
     if menu_choice.upper() == 'A':
         new_entry = add_new_entry()
-        print('Added new entry: {}'.format(new_entry))
-        input('Press enter to continue...')
+        print('Added new entry!')
+        print(new_entry)
     if menu_choice.upper() == 'L':
-        print('Lookup Previous Entries')
-        print('Under Construction')
-        input('Press enter to continue...')
 
-# As a user of the script, if I choose to find a previous entry,
-# I should be presented with four options:
-#       find by date
-#       find by time spent
-#       find by exact search
-#       find by pattern
-# Note:
+        # Lookup Menu Loop
+        while menu_choice.upper() != 'B':
+            # display lookup menu
+            clear_console()
+            print('    Work Log')
+            print('Lookup Previous Entries')
+            print(LOOKUP_MENU)
+
+            # handle the user's choice
+            menu_choice = input('> ')
+            if menu_choice.upper() == 'D':  # find by date
+                pass
+            if menu_choice.upper() == 'T':  # find by time spent
+                pass
+            if menu_choice.upper() == 'E':  # find by exact search
+                pass
+            if menu_choice.upper() == 'P':  # find by pattern
+                pass
+
+# REQUIREMENTS:
 # When finding by date, I should be presented with a list of dates with entries
 # and be able to choose one to see entries from.
+
 # When finding by time spent, I should be allowed to enter the number of minutes a task took
 # and be able to choose one to see entries from.
 # When finding by an exact string, I should be allowed to enter a string
@@ -59,24 +90,9 @@ while menu_choice.upper() != 'Q':
 # When displaying the entries, the entries should be displayed in a readable format with
 # the date, task name, time spent, and notes information.
 
-# EXTRA CREDIT
-# ============
-# Entries can be deleted and edited, letting user change the date,
-# task name, time spent, and/or notes.
-# Entries can be searched for and found based on a date range.
-# For example between 01/01/2016 and 12/31/2016.
-# Entries are displayed one at a time with the ability to page through records
-# (previous/next/back).
-
-# NOTE:
-# To get an "Exceeds Expectations" grade for this project,
-# you'll need to complete each of the items in this section.
-# See the rubric in the "How You'll Be Graded" tab above for details on how you'll be graded.
-# If you’re shooting for the "Exceeds Expectations" grade,
-# it is recommended that you mention so in your submission notes.
-# Passing grades are final. If you try for the "Exceeds Expectations" grade,
-# but miss an item and receive a “Meets Expectations” grade, you won’t get a second chance.
-# Exceptions can be made for items that have been misgraded in review.
+# Entries can be deleted and edited, letting user change the date, task name, time spent, and/or notes.
+# Entries can be searched for and found based on a date range. For example between 01/01/2016 and 12/31/2016.
+# Entries are displayed one at a time with the ability to page through records (previous/next/back).
 
 # Make sure your script runs without errors.
 # Catch exceptions and report errors to the user in a meaningful way.
