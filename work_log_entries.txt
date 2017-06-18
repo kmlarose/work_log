@@ -1,0 +1,4 @@
+{"task_name": "did it work?", "time_spent": 12.0, "notes": "i really hope so", "date_created": "06-18-2017 16:45"}
+{"task_name": "heres another", "time_spent": 675.0, "notes": "let's see if this works", "date_created": "06-18-2017 16:47"}
+{"task_name": "four", "time_spent": 4.0, "notes": "try again", "date_created": "06-18-2017 16:50"}
+{"task_name": "this", "time_spent": 4.0, "notes": "that", "date_created": "06-18-2017 16:53"}
