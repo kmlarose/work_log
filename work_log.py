@@ -1,14 +1,32 @@
-print('    Work Log')
+import os
+
+
+def clear():
+    """clears the console screen"""
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 # As a user of the script, I should be prompted with a menu to choose
 # whether to add a new entry or lookup previous entries.
 # Menu has a “quit” option to exit the program.
 MAIN_MENU = ('[A] Add New Entry\n'
              '[L] Lookup Previous Entries\n'
              '[Q] Quit')
+
 menu_choice = ''
 while menu_choice.upper() != 'Q':
+    clear()
+    print('    Work Log')
     print(MAIN_MENU)
+
     menu_choice = input('> ')
+    if menu_choice.upper() == 'A':
+        print('Add New Entry')
+        print('Under Construction')
+        input('Press enter to continue...')
+    if menu_choice.upper() == 'L':
+        print('Lookup Previous Entries')
+        print('Under Construction')
+        input('Press enter to continue...')
 
 # As a user of the script, if I choose to enter a new work log,
 # I should be able to provide a task name, a number of minutes spent working on it,
