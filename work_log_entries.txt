@@ -1,4 +1,5 @@
-{"task_name": "did it work?", "time_spent": 12.0, "notes": "i really hope so", "date_created": "06-18-2017 16:45"}
-{"task_name": "heres another", "time_spent": 675.0, "notes": "let's see if this works", "date_created": "06-18-2017 16:47"}
-{"task_name": "four", "time_spent": 4.0, "notes": "try again", "date_created": "06-18-2017 16:50"}
-{"task_name": "this", "time_spent": 4.0, "notes": "that", "date_created": "06-18-2017 16:53"}
+{"task_name": "Adding a first item", "time_spent": 1, "notes": "nope", "date_created": "06-18-2017 21:37"}
+{"task_name": "adding a second item", "time_spent": 1, "notes": "nope", "date_created": "06-18-2017 21:37"}
+{"task_name": "adding a third item", "time_spent": 1, "notes": "no way jose", "date_created": "06-18-2017 21:38"}
+{"task_name": "opening a bottle of wine", "time_spent": 2, "notes": "the cork broke in half!", "date_created": "06-18-2017 21:38"}
+{"task_name": "P90X3 workout", "time_spent": 30, "notes": "it was actually kind of refreshing!", "date_created": "06-18-2017 21:39"}

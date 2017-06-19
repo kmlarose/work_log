@@ -4,7 +4,7 @@ import json
 
 class Entry:
     """A log Entry - it has a name, time spent on task, and notes"""
-    def __init__(self, task_name, time_spent, notes):
+    def __init__(self, task_name, time_spent, notes, **kwargs):
         self.task_name = task_name
         self.time_spent = time_spent
         self.notes = notes
@@ -30,15 +30,3 @@ class Entry:
         """Saves the Entry"""
         with open('work_log_entries.txt', 'a') as entries_log:
             entries_log.write(self.convert_entry_to_json()+'\n')
-
-
-class EntryCollection:
-    """A collection of log Entries"""
-    def __init__(self):
-        self.entries = []
-
-    def __len__(self):
-        return len(self.entries)
-
-    def __iter__(self):
-        yield from self.entries
