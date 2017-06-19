@@ -1,6 +1,7 @@
 import os
 
 from entry import Entry
+from entry_collections import EntryCollection
 
 
 def clear_console():
@@ -70,7 +71,11 @@ def run_console_ui():
                 menu_choice = input('> ')
                 if menu_choice.upper() == 'D':  # find by date
                     # TODO-kml: present a list of dates with entries, and be able to choose one to see entries from
-                    pass
+                    collection = EntryCollection()
+                    print('{} Results found'.format(len(collection)))
+                    print('='*15)
+                    print(collection[0])
+                    print('Entry 1 of {}'.format(len(collection)))
                 if menu_choice.upper() == 'T':  # find by time spent
                     # TODO-kml: enter the number of minutes a task took and be able to choose one to see entries from
                     pass

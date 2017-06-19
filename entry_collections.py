@@ -20,9 +20,5 @@ class EntryCollection:
     def __iter__(self):
         yield from self.entries
 
-if __name__ == '__main__':
-    ec = EntryCollection()
-    print(ec.entries)
-    for entry in ec.entries:
-        print(entry)
-    print(len(ec))
+    def __getitem__(self, item):
+        return self.entries.__getitem__(item)
