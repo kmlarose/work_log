@@ -1,3 +1,4 @@
+import datetime
 import os
 
 from entry import Entry
@@ -71,11 +72,32 @@ def run_console_ui():
                 menu_choice = input('> ')
                 if menu_choice.upper() == 'D':  # find by date
                     # TODO-kml: present a list of dates with entries, and be able to choose one to see entries from
+                    clear_console()
                     collection = EntryCollection()
-                    print('{} Results found'.format(len(collection)))
-                    print('='*15)
-                    print(collection[0])
-                    print('Entry 1 of {}'.format(len(collection)))
+                    dates = set()
+                    [dates.add(entry.date) for entry in collection]
+                    dates = list(dates)
+                    dates.sort()
+                    while True:
+                        print('    Work Log')
+                        print('Choose a date to see entries from')
+                        [print(date) for date in dates]
+                        chosen_date = input('(MM-DD-YYYY) format > ')
+                        try:
+                            chosen_date = datetime.datetime.strptime(chosen_date, '%m-%d-%Y')
+                        except ValueError:
+                            clear_console()
+                            print('Please enter a date in the valid format')
+                        else:
+                            if chosen_date.strftime('%m-%d-%Y') not in dates:
+                                clear_console()
+                                print('hey-o! there are no entries with that date. Try another...')
+                            else:
+                                break
+                    collection.filter_by_date(chosen_date)
+                    print(len(collection))
+                    [print(entry) for entry in collection.entries]
+                    input('press enter to continue...')
                 if menu_choice.upper() == 'T':  # find by time spent
                     # TODO-kml: enter the number of minutes a task took and be able to choose one to see entries from
                     pass

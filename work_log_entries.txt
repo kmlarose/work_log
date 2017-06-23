@@ -3,3 +3,5 @@
 {"task_name": "adding a third item", "time_spent": 1, "notes": "no way jose", "date_created": "06-18-2017 21:38"}
 {"task_name": "opening a bottle of wine", "time_spent": 2, "notes": "the cork broke in half!", "date_created": "06-18-2017 21:38"}
 {"task_name": "P90X3 workout", "time_spent": 30, "notes": "it was actually kind of refreshing!", "date_created": "06-18-2017 21:39"}
+{"task_name": "try adding again", "time_spent": 1, "notes": "it's a new day. What's this program gonna turn out like? ", "date_created": "06-19-2017 21:23"}
+{"task_name": "getting back to it", "time_spent": 15, "notes": "it's been a while... a wa-a-a-a", "date_created": "06-22-2017 19:53"}

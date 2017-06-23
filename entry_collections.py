@@ -7,8 +7,8 @@ class EntryCollection:
     """A collection of all the log Entries from the data file"""
     def __init__(self):
         self.entries = []
-        saved_data = []
         # import all of the JSON strings as dictionaries
+        saved_data = []
         with open('work_log_entries.txt', 'r') as entries_log:
             [saved_data.append(json.loads(line[:-1])) for line in entries_log]  # slice excludes the '\n'
         # use those as **kwargs to instantiate Entries
@@ -22,3 +22,12 @@ class EntryCollection:
 
     def __getitem__(self, item):
         return self.entries.__getitem__(item)
+
+    def filter_by_date(self, date):
+        # import pdb; pdb.set_trace()
+        date = date.strftime('%m-%d-%Y')
+        while any(entry.date != date for entry in self.entries):
+            for entry in self.entries:
+                if entry.date != date:
+                    self.entries.remove(entry)
+        return self.entries
