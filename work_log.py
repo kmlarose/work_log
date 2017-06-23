@@ -32,14 +32,37 @@ def add_new_entry():
     return entry
 
 
+# TODO-kml: Entries are displayed one at a time with the ability to page through records (previous/next/back).
 def display_entries(collection):
-    if len(collection) == 1:
-        plural = ''
-    else:
-        plural = 's'
-    print('{} result{}:'.format(len(collection), plural))
-    [print(entry, end='\n\n') for entry in collection.entries]
-    return input('press enter to continue...')
+    """Entries are displayed one at a time with the ability to page through records (previous/next/back)"""
+    if len(collection) == 0:
+        print('sorry, no results found.')
+        return input('press enter to continue...')
+
+    # display entries one at a time
+    user_choice = ''
+    page = 1
+    while user_choice.upper() != 'B':
+        clear_console()
+        print('Result {} of {}'.format(page, len(collection)))
+        print(collection.entries[page-1], end='\n\n')
+
+        # determine if user is looking at first and/or last page
+        on_first_page = page == 1
+        on_last_page = page == len(collection)
+
+        # print the pagination nav menu
+        if not on_first_page:
+            print('[P] Previous')
+        if not on_last_page:
+            print('[N] Next')
+        print('[B] Back')
+        user_choice = input('> ')
+        if user_choice.upper() == 'P' and not on_first_page:
+            page -= 1
+        if user_choice.upper() == 'N' and not on_last_page:
+            page += 1
+    return user_choice
 
 
 def run_console_ui():
@@ -130,9 +153,10 @@ def run_console_ui():
                     collection.filter_by_pattern_search(regex_pattern)
                     display_entries(collection)
 
+
 # TODO-kml: Entries can be deleted and edited, letting user change the date, task name, time spent, and/or notes.
 # TODO-kml: Entries can be searched for and found based on a date range. For example between 01/01/2016 and 12/31/2016.
-# TODO-kml: Entries are displayed one at a time with the ability to page through records (previous/next/back).
+
 
 if __name__ == '__main__':
     run_console_ui()
