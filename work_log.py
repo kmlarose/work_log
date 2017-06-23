@@ -32,7 +32,6 @@ def add_new_entry():
     return entry
 
 
-# TODO-kml: Entries are displayed one at a time with the ability to page through records (previous/next/back).
 def display_entries(collection):
     """Entries are displayed one at a time with the ability to page through records (previous/next/back)"""
     if len(collection) == 0:
@@ -45,6 +44,7 @@ def display_entries(collection):
     while user_choice.upper() != 'B':
         clear_console()
         print('Result {} of {}'.format(page, len(collection)))
+        print('='*15)
         print(collection.entries[page-1], end='\n\n')
 
         # determine if user is looking at first and/or last page
@@ -52,17 +52,33 @@ def display_entries(collection):
         on_last_page = page == len(collection)
 
         # print the pagination nav menu
+        print('Options:')
+        print('[E] Edit [D] Delete')
+        # nav options
         if not on_first_page:
-            print('[P] Previous')
+            print('[P] Previous', end=' ')
         if not on_last_page:
-            print('[N] Next')
-        print('[B] Back')
+            print('[N] Next', end=' ')
+        print('[B] Back to Lookup Menu')
+
         user_choice = input('> ')
+        if user_choice.upper() == 'E':
+            # TODO-kml: Entries can be edited, letting user change the date, task name, time spent, and/or notes.
+            pass
+        if user_choice.upper() == 'D':
+            are_you_sure = input('Are you sure you want to delete this entry? [y/N]: ')
+            if are_you_sure.upper() == 'Y':
+                collection.entries[page-1].delete_from_data_file()
+                del collection.entries[page-1]
+                if on_first_page and on_last_page:
+                    return user_choice.upper()  # Exit the Results Menu
+                elif on_last_page:
+                    page -= 1
         if user_choice.upper() == 'P' and not on_first_page:
             page -= 1
         if user_choice.upper() == 'N' and not on_last_page:
             page += 1
-    return user_choice
+    return user_choice.upper()  # Exit the Results Menu
 
 
 def run_console_ui():
@@ -154,9 +170,7 @@ def run_console_ui():
                     display_entries(collection)
 
 
-# TODO-kml: Entries can be deleted and edited, letting user change the date, task name, time spent, and/or notes.
 # TODO-kml: Entries can be searched for and found based on a date range. For example between 01/01/2016 and 12/31/2016.
-
 
 if __name__ == '__main__':
     run_console_ui()

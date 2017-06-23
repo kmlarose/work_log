@@ -35,3 +35,7 @@ class Entry:
         """Saves the Entry"""
         with open('work_log_entries.txt', 'a') as entries_log:
             entries_log.write(self.convert_entry_to_json()+'\n')
+
+    # TODO-kml: delete this entry from the data file
+    def delete_from_data_file(self):
+        pass
