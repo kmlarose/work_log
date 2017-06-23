@@ -17,10 +17,11 @@ class Entry:
 
     def __str__(self):
         """Presents the Entry as a multi-line string"""
-        template = ('Entry: {} took {} minutes\n'
-                    'Notes: {}\n'
-                    'Created {}')
-        return template.format(self.task_name, self.time_spent, self.notes, self.date_created)
+        template = ('Date: {}\n'
+                    'Task Name: {}\n'
+                    'Time Spent: {}\n'
+                    'Notes: {}')
+        return template.format(self.date_created, self.task_name, self.time_spent, self.notes)
 
     def convert_entry_to_json(self):
         """Represents the entry's attributes in a JSON string"""

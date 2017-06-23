@@ -108,8 +108,6 @@ def run_console_ui():
                     collection.filter_by_date(chosen_date)
                     display_entries(collection)
                 if menu_choice.upper() == 'T':  # find by time spent
-                    # TODO-kml: enter the number of minutes a task took and be able to choose one to see entries from
-                    # get an int from the user
                     while True:
                         minutes = input('Please enter the # of minutes the task took: ')
                         try:
@@ -124,19 +122,17 @@ def run_console_ui():
                     collection.filter_by_time_spent(minutes)
                     display_entries(collection)
                 if menu_choice.upper() == 'E':  # find by exact search
-                    # TODO-kml: enter a string and be presented with entries containing that string in the name or notes
-                    pass
+                    search_string = input('Please enter text to search for: ')
+                    collection.filter_by_exact_search(search_string)
+                    display_entries(collection)
                 if menu_choice.upper() == 'P':  # find by pattern
-                    # TODO-kml: enter a regex and be presented with entries matching that pattern in the name or notes
-                    pass
+                    regex_pattern = input('Please enter regex pattern to search for: ')
+                    collection.filter_by_pattern_search(regex_pattern)
+                    display_entries(collection)
 
-# REQUIREMENTS:
-# When displaying the entries, the entries should be displayed in a readable format with
-# the date, task name, time spent, and notes information.
-
-# Entries can be deleted and edited, letting user change the date, task name, time spent, and/or notes.
-# Entries can be searched for and found based on a date range. For example between 01/01/2016 and 12/31/2016.
-# Entries are displayed one at a time with the ability to page through records (previous/next/back).
+# TODO-kml: Entries can be deleted and edited, letting user change the date, task name, time spent, and/or notes.
+# TODO-kml: Entries can be searched for and found based on a date range. For example between 01/01/2016 and 12/31/2016.
+# TODO-kml: Entries are displayed one at a time with the ability to page through records (previous/next/back).
 
 if __name__ == '__main__':
     run_console_ui()
