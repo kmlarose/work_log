@@ -32,6 +32,16 @@ def add_new_entry():
     return entry
 
 
+def display_entries(collection):
+    if len(collection) == 1:
+        plural = ''
+    else:
+        plural = 's'
+    print('{} result{}:'.format(len(collection), plural))
+    [print(entry, end='\n\n') for entry in collection.entries]
+    return input('press enter to continue...')
+
+
 def run_console_ui():
     """Prints menus & prompts to the console and collects user input"""
     main_menu = ('[A] Add New Entry\n'
@@ -62,6 +72,9 @@ def run_console_ui():
 
             # Lookup Menu Loop
             while menu_choice.upper() != 'B':
+                # load entries
+                collection = EntryCollection()
+
                 # display lookup menu
                 clear_console()
                 print('    Work Log')
@@ -71,9 +84,7 @@ def run_console_ui():
                 # handle the user's choice
                 menu_choice = input('> ')
                 if menu_choice.upper() == 'D':  # find by date
-                    # TODO-kml: present a list of dates with entries, and be able to choose one to see entries from
                     clear_console()
-                    collection = EntryCollection()
                     dates = set()
                     [dates.add(entry.date) for entry in collection]
                     dates = list(dates)
@@ -95,12 +106,23 @@ def run_console_ui():
                             else:
                                 break
                     collection.filter_by_date(chosen_date)
-                    print(len(collection))
-                    [print(entry) for entry in collection.entries]
-                    input('press enter to continue...')
+                    display_entries(collection)
                 if menu_choice.upper() == 'T':  # find by time spent
                     # TODO-kml: enter the number of minutes a task took and be able to choose one to see entries from
-                    pass
+                    # get an int from the user
+                    while True:
+                        minutes = input('Please enter the # of minutes the task took: ')
+                        try:
+                            minutes = int(minutes)
+                        except ValueError:
+                            print('Please enter an integer...')
+                        else:
+                            if minutes <= 0:
+                                print('Please enter a valid # of minutes...')
+                            else:
+                                break
+                    collection.filter_by_time_spent(minutes)
+                    display_entries(collection)
                 if menu_choice.upper() == 'E':  # find by exact search
                     # TODO-kml: enter a string and be presented with entries containing that string in the name or notes
                     pass

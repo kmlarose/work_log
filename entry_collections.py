@@ -24,10 +24,18 @@ class EntryCollection:
         return self.entries.__getitem__(item)
 
     def filter_by_date(self, date):
-        # import pdb; pdb.set_trace()
+        """Filters the collection for only Entries of a certain date"""
         date = date.strftime('%m-%d-%Y')
         while any(entry.date != date for entry in self.entries):
             for entry in self.entries:
                 if entry.date != date:
+                    self.entries.remove(entry)
+        return self.entries
+
+    def filter_by_time_spent(self, minutes):
+        """Filters the collection for only Entries that took a certain # of minutes"""
+        while any(entry.time_spent != minutes for entry in self.entries):
+            for entry in self.entries:
+                if entry.time_spent != minutes:
                     self.entries.remove(entry)
         return self.entries
