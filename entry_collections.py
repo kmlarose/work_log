@@ -1,3 +1,4 @@
+import datetime
 import json
 
 from entry import Entry
@@ -5,6 +6,7 @@ from entry import Entry
 
 class EntryCollection:
     """A collection of all the log Entries from the data file"""
+
     def __init__(self):
         self.entries = []
         # import all of the JSON strings as dictionaries
@@ -32,9 +34,18 @@ class EntryCollection:
                     self.entries.remove(entry)
         return self.entries
 
-    # TODO: write this...
     def filter_by_date_range(self, from_date, to_date):
-        pass
+        """Filters the collection for only Entries from a date range, includes from & to dates"""
+        to_date += datetime.timedelta(days=1)
+        while any(entry.date_created < from_date for entry in self.entries):
+            for entry in self.entries:
+                if entry.date_created < from_date:
+                    self.entries.remove(entry)
+        while any(entry.date_created >= to_date for entry in self.entries):
+            for entry in self.entries:
+                if entry.date_created >= to_date:
+                    self.entries.remove(entry)
+        return self.entries
 
     def filter_by_time_spent(self, minutes):
         """Filters the collection for only Entries that took a certain # of minutes"""
