@@ -32,6 +32,10 @@ class EntryCollection:
                     self.entries.remove(entry)
         return self.entries
 
+    # TODO: write this...
+    def filter_by_date_range(self, from_date, to_date):
+        pass
+
     def filter_by_time_spent(self, minutes):
         """Filters the collection for only Entries that took a certain # of minutes"""
         while any(entry.time_spent != minutes for entry in self.entries):

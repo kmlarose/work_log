@@ -63,7 +63,6 @@ def display_entries(collection):
 
         user_choice = input('> ')
         if user_choice.upper() == 'E':
-            # TODO-kml: Entries can be edited, letting user change the date, task name, time spent, and/or notes.
             while user_choice.upper() != 'B':
                 clear_console()
                 print(collection.entries[page - 1])
@@ -82,16 +81,18 @@ def display_entries(collection):
                         else:
                             break
                     # confirm user is sure...
-                    print('Change Entry Date from {} to {}.'.format(collection.entries[page-1].date, new_date.strftime('%m-%d-%Y')))
+                    print('Change Entry Date from {} to {}.'.format(collection.entries[page-1].date,
+                                                                    new_date.strftime('%m-%d-%Y')))
                     are_you_sure = input('Are you sure? [y/N]?: ')
                     if are_you_sure.upper() == 'Y':
                         collection.entries[page - 1].date_created = new_date
                         collection.entries[page - 1].save()
                         print('Changes Saved!')
                 if user_choice.upper() == 'T':
-                    print('Current Task Name: {}'.format(collection.entries[page -1].task_name))
+                    print('Current Task Name: {}'.format(collection.entries[page - 1].task_name))
                     new_name = input('new name: ')
-                    print('Change Entry Task Name from {} to {}'.format(collection.entries[page-1].task_name, new_name))
+                    print('Change Entry Task Name from {} to {}'.format(collection.entries[page-1].task_name,
+                                                                        new_name))
                     are_you_sure = input('Are you sure? [y/N]?: ')
                     if are_you_sure.upper() == 'Y':
                         collection.entries[page - 1].task_name = new_name
@@ -185,29 +186,66 @@ def run_console_ui():
                 # handle the user's choice
                 menu_choice = input('> ')
                 if menu_choice.upper() == 'D':  # find by date
-                    clear_console()
-                    dates = set()
-                    [dates.add(entry.date) for entry in collection]
-                    dates = list(dates)
-                    dates.sort()
-                    while True:
-                        print('    Work Log')
-                        print('Choose a date to see entries from')
-                        [print(date) for date in dates]
-                        chosen_date = input('(MM-DD-YYYY) format > ')
-                        try:
-                            chosen_date = datetime.datetime.strptime(chosen_date, '%m-%d-%Y')
-                        except ValueError:
+                    date_search_choice = ''
+                    while date_search_choice.upper() != 'B':
+                        clear_console()
+                        print('[E] Search for exact date')
+                        print('[R] Search by date range')
+                        print('[B] Back to Lookup Menu')
+                        date_search_choice = input('> ')
+
+                        if date_search_choice.upper() == 'E':  # search for an exact date
                             clear_console()
-                            print('Please enter a date in the valid format')
-                        else:
-                            if chosen_date.strftime('%m-%d-%Y') not in dates:
-                                clear_console()
-                                print('hey-o! there are no entries with that date. Try another...')
-                            else:
-                                break
-                    collection.filter_by_date(chosen_date)
-                    display_entries(collection)
+                            dates = set()
+                            [dates.add(entry.date) for entry in collection]
+                            dates = list(dates)
+                            dates.sort()
+                            while True:
+                                print('    Work Log')
+                                print('Choose a date to see entries from')
+                                [print(date) for date in dates]
+                                chosen_date = input('(MM-DD-YYYY) format > ')
+                                try:
+                                    chosen_date = datetime.datetime.strptime(chosen_date, '%m-%d-%Y')
+                                except ValueError:
+                                    clear_console()
+                                    print('Please enter a date in the valid format')
+                                else:
+                                    if chosen_date.strftime('%m-%d-%Y') not in dates:
+                                        clear_console()
+                                        print('hey-o! there are no entries with that date. Try another...')
+                                    else:
+                                        break
+                            collection.filter_by_date(chosen_date)
+                            display_entries(collection)
+                            date_search_choice = 'B'  # exit date search sub-menu
+                        if date_search_choice.upper() == 'R':  # search for a date range
+                            # get the start date
+                            while True:
+                                print('Search for entries from...')
+                                from_date = input('enter From date (MM-DD-YYYY) > ')
+                                try:
+                                    from_date = datetime.datetime.strptime(from_date, '%m-%d-%Y')
+                                except ValueError:
+                                    clear_console()
+                                    print('Please enter a date in the valid format')
+                                else:
+                                    break
+                            # get the end date
+                            while True:
+                                print('Search for entries from {} to...'.format(from_date.strftime('%m-%d-%Y')))
+                                to_date = input('enter To date (MM-DD-YYYY) > ')
+                                try:
+                                    to_date = datetime.datetime.strptime(to_date, '%m-%d-%Y')
+                                except ValueError:
+                                    clear_console()
+                                    print('Please enter a date in the valid format')
+                                else:
+                                    break
+                            # display any results, or say sorry - no results
+                            collection.filter_by_date_range(from_date, to_date)
+                            display_entries(collection)
+                            date_search_choice = 'B'  # exit date search sub-menu
                 if menu_choice.upper() == 'T':  # find by time spent
                     while True:
                         minutes = input('Please enter the # of minutes the task took: ')
@@ -231,8 +269,6 @@ def run_console_ui():
                     collection.filter_by_pattern_search(regex_pattern)
                     display_entries(collection)
 
-
-# TODO-kml: Entries can be searched for and found based on a date range. For example between 01/01/2016 and 12/31/2016.
 
 if __name__ == '__main__':
     run_console_ui()
