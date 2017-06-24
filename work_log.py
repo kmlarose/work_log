@@ -28,12 +28,12 @@ def add_new_entry():
                 break
     entry_note = input('Any additional notes?: ')
     entry = Entry(entry_name, entry_time, entry_note)
-    entry.save()
+    entry.save_new_entry()
     return entry
 
 
 def display_entries(collection):
-    """Entries are displayed one at a time with the ability to page through records (previous/next/back)"""
+    """Entries are displayed one at a time with the ability to edit, delete, or page through records"""
     if len(collection) == 0:
         print('sorry, no results found.')
         return input('press enter to continue...')
@@ -64,7 +64,69 @@ def display_entries(collection):
         user_choice = input('> ')
         if user_choice.upper() == 'E':
             # TODO-kml: Entries can be edited, letting user change the date, task name, time spent, and/or notes.
-            pass
+            while user_choice.upper() != 'B':
+                clear_console()
+                print(collection.entries[page - 1])
+                print('What would you like to edit?')
+                print('[D] Date [T] Task Name [S] Time Spent [N] Notes [B] Back')
+                user_choice = input('> ')
+                if user_choice.upper() == 'D':
+                    print('Current Date: {}'.format(collection.entries[page-1].date))
+                    # get a valid date
+                    while True:
+                        new_date = input('new date (MM-DD-YYYY): ')
+                        try:
+                            new_date = datetime.datetime.strptime(new_date, '%m-%d-%Y')
+                        except ValueError:
+                            print('Please enter a valid date in MM-DD-YYYY format')
+                        else:
+                            break
+                    # confirm user is sure...
+                    print('Change Entry Date from {} to {}.'.format(collection.entries[page-1].date, new_date.strftime('%m-%d-%Y')))
+                    are_you_sure = input('Are you sure? [y/N]?: ')
+                    if are_you_sure.upper() == 'Y':
+                        collection.entries[page - 1].date_created = new_date
+                        collection.entries[page - 1].save()
+                        print('Changes Saved!')
+                if user_choice.upper() == 'T':
+                    print('Current Task Name: {}'.format(collection.entries[page -1].task_name))
+                    new_name = input('new name: ')
+                    print('Change Entry Task Name from {} to {}'.format(collection.entries[page-1].task_name, new_name))
+                    are_you_sure = input('Are you sure? [y/N]?: ')
+                    if are_you_sure.upper() == 'Y':
+                        collection.entries[page - 1].task_name = new_name
+                        collection.entries[page - 1].save()
+                        print('Changes Saved!')
+                if user_choice.upper() == 'S':
+                    print('Current Time Spent: {}'.format(collection.entries[page - 1].time_spent))
+                    while True:
+                        new_time = input('new time spent (minutes): ')
+                        try:
+                            new_time = int(new_time)
+                        except ValueError:
+                            print('Please enter an integer...')
+                        else:
+                            if new_time < 1:
+                                print('Please enter a valid # of minutes...')
+                            else:
+                                break
+                    print('Change Entry Time Spent from {} to {}'.format(collection.entries[page - 1].time_spent,
+                                                                         new_time))
+                    are_you_sure = input('Are you sure? [y/N]?: ')
+                    if are_you_sure.upper() == 'Y':
+                        collection.entries[page - 1].time_spent = new_time
+                        collection.entries[page - 1].save()
+                        print('Changes Saved!')
+                if user_choice.upper() == 'N':
+                    print('Current Notes: {}'.format(collection.entries[page - 1].notes))
+                    new_notes = input('new notes: ')
+                    print(
+                        'Change Entry Notes from {} to {}'.format(collection.entries[page - 1].notes, new_notes))
+                    are_you_sure = input('Are you sure? [y/N]?: ')
+                    if are_you_sure.upper() == 'Y':
+                        collection.entries[page - 1].notes = new_notes
+                        collection.entries[page - 1].save()
+                        print('Changes Saved!')
         if user_choice.upper() == 'D':
             are_you_sure = input('Are you sure you want to delete this entry? [y/N]: ')
             if are_you_sure.upper() == 'Y':

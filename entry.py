@@ -31,10 +31,15 @@ class Entry:
                       'date_created': self.date_created.strftime(self.date_format)}
         return json.dumps(attributes)
 
-    def save(self):
+    def save_new_entry(self):
         """Saves the Entry"""
         with open('work_log_entries.txt', 'a') as entries_log:
             entries_log.write(self.convert_entry_to_json()+'\n')
+
+    # TODO-kml: ability to save changes to Entries
+    def save(self):
+        """Saves an Entry that already exists in the data file"""
+        pass
 
     # TODO-kml: delete this entry from the data file
     def delete_from_data_file(self):
