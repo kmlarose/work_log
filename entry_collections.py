@@ -1,5 +1,6 @@
 import datetime
 import json
+import re
 
 from entry import Entry
 
@@ -36,7 +37,7 @@ class EntryCollection:
 
     def filter_by_date_range(self, from_date, to_date):
         """Filters the collection for only Entries from a date range, includes from & to dates"""
-        to_date += datetime.timedelta(days=1)
+        to_date += datetime.timedelta(days=1)  # add 1 day so original to_date will be included in results
         while any(entry.date_created < from_date for entry in self.entries):
             for entry in self.entries:
                 if entry.date_created < from_date:
@@ -58,7 +59,21 @@ class EntryCollection:
     # TODO-kml: enter a string and be presented with entries containing that string in the name or notes
     def filter_by_exact_search(self, search_string):
         """Filters the collection for only Entries that match a search string"""
-        pass
+        # import pdb; pdb.set_trace()
+        title_matches = []
+        while any(re.search(search_string, entry.task_name) for entry in self.entries):
+            for entry in self.entries:
+                if re.search(search_string, entry.task_name):
+                    title_matches.append(entry)
+                    self.entries.remove(entry)
+        notes_matches = []
+        while any(re.search(search_string, entry.notes) for entry in self.entries):
+            for entry in self.entries:
+                if re.search(search_string, entry.notes):
+                    notes_matches.append(entry)
+                    self.entries.remove(entry)
+        self.entries = title_matches + notes_matches
+        return self.entries
 
     # TODO-kml: enter a regex and be presented with entries matching that pattern in the name or notes
     def filter_by_pattern_search(self, regex_pattern):
