@@ -44,14 +44,23 @@ class Entry:
             entries_log.write(self.convert_entry_to_json()+'\n')
 
     # TODO-kml: ability to save changes to Entries
-    def save(self):
+    def save(self, entry_id):
         """Saves an Entry that already exists in the data file"""
         pass
 
-    # TODO-kml: delete this entry from the data file
-    def delete_from_data_file(self):
+    @staticmethod
+    def delete_from_data_file(entry_id):
         """Deletes an Entry from the data file"""
-        pass
+        all_entries = []
+        # read all the saved entries
+        with open('work_log_entries.txt', 'r') as entries_log:
+            for line in entries_log:
+                all_entries.append(json.loads(line[:-1]))
+        # write all the entries except for the one to be deleted
+        with open('work_log_entries.txt', 'w') as entries_log:
+            for entry in all_entries:
+                if entry['unique_id'] != entry_id:
+                    entries_log.write(json.dumps(entry)+'\n')
 
     @staticmethod
     def get_unique_id():
@@ -60,7 +69,7 @@ class Entry:
         # find IDs that have been already been used
         with open('work_log_entries.txt', 'r') as entries_log:
             for line in entries_log:
-                entry = dict(json.loads(line[:-1]))
+                entry = json.loads(line[:-1])
                 unique_ids.append(entry['unique_id'])
         # generate a random ID and make sure it hasn't been used already
         while True:
