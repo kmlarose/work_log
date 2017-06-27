@@ -43,13 +43,12 @@ class Entry:
         with open('work_log_entries.txt', 'a') as entries_log:
             entries_log.write(self.convert_entry_to_json()+'\n')
 
-    # TODO-kml: ability to save changes to Entries
-    def save(self, entry_id):
-        """Saves an Entry that already exists in the data file"""
-        pass
+    def save(self):
+        """Save changes to an existing Entry"""
+        self.delete_from_data_file()
+        self.save_new_entry()
 
-    @staticmethod
-    def delete_from_data_file(entry_id):
+    def delete_from_data_file(self):
         """Deletes an Entry from the data file"""
         all_entries = []
         # read all the saved entries
@@ -59,7 +58,7 @@ class Entry:
         # write all the entries except for the one to be deleted
         with open('work_log_entries.txt', 'w') as entries_log:
             for entry in all_entries:
-                if entry['unique_id'] != entry_id:
+                if entry['unique_id'] != self.unique_id:
                     entries_log.write(json.dumps(entry)+'\n')
 
     @staticmethod

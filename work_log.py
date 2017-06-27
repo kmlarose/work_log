@@ -131,7 +131,7 @@ def display_entries(collection):
         if user_choice.upper() == 'D':
             are_you_sure = input('Are you sure you want to delete this entry? [y/N]: ')
             if are_you_sure.upper() == 'Y':
-                collection.entries[page-1].delete_from_data_file(collection.entries[page-1].unique_id)
+                collection.entries[page-1].delete_from_data_file()
                 del collection.entries[page-1]
                 if on_first_page and on_last_page:
                     return user_choice.upper()  # Exit the Results Menu
