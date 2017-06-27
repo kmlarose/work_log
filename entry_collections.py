@@ -56,10 +56,8 @@ class EntryCollection:
                     self.entries.remove(entry)
         return self.entries
 
-    # TODO-kml: enter a string and be presented with entries containing that string in the name or notes
-    def filter_by_exact_search(self, search_string):
-        """Filters the collection for only Entries that match a search string"""
-        # import pdb; pdb.set_trace()
+    def filter_by_regex_search(self, search_string):
+        """Filters the collection for only Entries that contain a search string in Task Name or Notes"""
         title_matches = []
         while any(re.search(search_string, entry.task_name) for entry in self.entries):
             for entry in self.entries:
@@ -74,8 +72,3 @@ class EntryCollection:
                     self.entries.remove(entry)
         self.entries = title_matches + notes_matches
         return self.entries
-
-    # TODO-kml: enter a regex and be presented with entries matching that pattern in the name or notes
-    def filter_by_pattern_search(self, regex_pattern):
-        """Filters the collection for only Entries that match a regex pattern"""
-        pass

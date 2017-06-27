@@ -1,10 +1,12 @@
 import datetime
 import json
+import random
+import string
 
 
 class Entry:
     """A log Entry - it has a name, time spent on task, and notes"""
-    def __init__(self, task_name, time_spent, notes, date_created=None, **kwargs):
+    def __init__(self, task_name, time_spent, notes, date_created=None, unique_id=None, **kwargs):
         self.task_name = task_name
         self.time_spent = time_spent
         self.notes = notes
@@ -14,6 +16,10 @@ class Entry:
         else:
             self.date_created = datetime.datetime.now()
         self.date = self.date_created.strftime('%m-%d-%Y')
+        if unique_id:
+            self.unique_id = unique_id
+        else:
+            self.unique_id = Entry.get_unique_id()
 
     def __str__(self):
         """Presents the Entry as a multi-line string"""
@@ -25,7 +31,8 @@ class Entry:
 
     def convert_entry_to_json(self):
         """Represents the entry's attributes in a JSON string"""
-        attributes = {'task_name': self.task_name,
+        attributes = {'unique_id': self.unique_id,
+                      'task_name': self.task_name,
                       'time_spent': self.time_spent,
                       'notes': self.notes,
                       'date_created': self.date_created.strftime(self.date_format)}
@@ -43,4 +50,21 @@ class Entry:
 
     # TODO-kml: delete this entry from the data file
     def delete_from_data_file(self):
+        """Deletes an Entry from the data file"""
         pass
+
+    @staticmethod
+    def get_unique_id():
+        """Assigns a unique ID for an Entry"""
+        unique_ids = []
+        # find IDs that have been already been used
+        with open('work_log_entries.txt', 'r') as entries_log:
+            for line in entries_log:
+                entry = dict(json.loads(line[:-1]))
+                unique_ids.append(entry['unique_id'])
+        # generate a random ID and make sure it hasn't been used already
+        while True:
+            unique_id = random.sample(string.printable[:95], 10)
+            if unique_id not in unique_ids:
+                break
+        return ''.join(unique_id)

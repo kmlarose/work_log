@@ -262,11 +262,11 @@ def run_console_ui():
                     display_entries(collection)
                 if menu_choice.upper() == 'E':  # find by exact search
                     search_string = input('Please enter text to search for: ')
-                    collection.filter_by_exact_search(search_string)
+                    collection.filter_by_regex_search(search_string)
                     display_entries(collection)
                 if menu_choice.upper() == 'P':  # find by pattern
                     regex_pattern = input('Please enter regex pattern to search for: ')
-                    collection.filter_by_pattern_search(regex_pattern)
+                    collection.filter_by_regex_search(regex_pattern)
                     display_entries(collection)
 
 
