@@ -8,7 +8,7 @@ class Entry:
     """A log Entry - it has a name, time spent on task, and notes"""
     def __init__(self, task_name, time_spent, notes, date_created=None, unique_id=None, **kwargs):
         self.task_name = task_name
-        self.time_spent = time_spent
+        self.time_spent = int(time_spent)
         self.notes = notes
         self.date_format = '%m-%d-%Y %H:%M'
         self.fieldnames = ['unique_id', 'task_name', 'time_spent', 'notes', 'date_created']
