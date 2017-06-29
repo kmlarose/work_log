@@ -1,5 +1,5 @@
+import csv
 import datetime
-import json
 import re
 
 from entry import Entry
@@ -10,10 +10,12 @@ class EntryCollection:
 
     def __init__(self):
         self.entries = []
-        # import all of the JSON strings as dictionaries
+        # import all of the entry data as dictionaries
         saved_data = []
-        with open('work_log_entries.txt', 'r') as entries_log:
-            [saved_data.append(json.loads(line[:-1])) for line in entries_log]  # slice excludes the '\n'
+        with open('work_log_entries.csv', 'r') as csvfile:
+            reader = csv.DictReader(csvfile, delimiter='|')
+            for row in reader:
+                saved_data.append(row)
         # use those as **kwargs to instantiate Entries
         [self.entries.append(Entry(**data)) for data in saved_data]
 
